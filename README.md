@@ -6,10 +6,19 @@
 A major mode for [Nix][] expressions.
 
 ## Usage of nix-shell (this section added by @analyticd)
-Mario has solved the problem of getting Emacs to use nix-shell
-executables in Emacs without having to start Emacs from within a
-nix-shell! This ends much longstanding grief for many Nix users,
-myself included. Thanks Mario!
+In the case of Python, it seems that direnv integration (direnv from Nix, direnv
+Emacs package, .envrc containing 'use nix' in your nix-shell directory, and
+'direnv allow .' in same) to Emacs is needed in addition to nix-shell.el in
+Emacs. With just direnv integration to Emacs, the shell is built, but Emacs must
+be launched from within the nix-shell on the command line in order to use the
+appropriate python executable. With nix-shell.el, you can do M-x
+nix-shell-activate (in concert with the aforementioned coordination of direnv)
+and Emacs will pick up the nix-shell environment including the path to the
+python exectable (and other necessary config) defined (and implied) by the
+shell.nix file.
+
+Bottom line: Mario has solved the problem of getting Emacs to use nix-shell
+executables in Emacs without having to start Emacs from within a nix-shell.
 
         (use-package nix-mode
           :load-path (lambda () (expand-file-name "github.com/analyticd/nix-mode" ghq-root))) ; just the path to the repo will do
@@ -84,6 +93,7 @@ blocks (placed in your org-directory):
             python3Packages.matplotlib
             python3Packages.pyyaml
             python3Packages.scipy
+            julia_11
             # python3Packages.pillow
             # python3Packages.pymongo
             (ghc.withPackages (p: [
